@@ -20,11 +20,31 @@ export const PrintButton = ({ config }: PrintButtonProps) => {
   const checkPrintHeight = useCallback(() => {
     try {
       const contentElement = document.querySelector('#content')
-      if (contentElement) {
-        const height = parseInt(
-          window.getComputedStyle(contentElement).height,
-          10
-        )
+      const sectionElement = document.querySelector('#main-in')
+      const footerElement = document.querySelector('#padi')
+
+      if (contentElement && sectionElement) {
+        const contentWidth = contentElement.getBoundingClientRect().width
+        const previousWidth = contentElement instanceof HTMLElement ? contentElement.style.width : ''
+        const previousMinWidth =
+          contentElement instanceof HTMLElement ? contentElement.style.minWidth : ''
+
+        if (contentElement instanceof HTMLElement && contentWidth !== 1024) {
+          contentElement.style.width = '1024px'
+          contentElement.style.minWidth = '1024px'
+        }
+
+        const sectionRect = sectionElement.getBoundingClientRect()
+        const footerRect = footerElement?.getBoundingClientRect()
+        const height = footerRect
+          ? footerRect.bottom - sectionRect.top
+          : sectionRect.bottom - sectionRect.top
+
+        if (contentElement instanceof HTMLElement && contentWidth !== 1024) {
+          contentElement.style.width = previousWidth
+          contentElement.style.minWidth = previousMinWidth
+        }
+
         setIsPrintInOnePage(height <= 1430)
       }
     } catch (err) {
