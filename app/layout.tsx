@@ -1,15 +1,19 @@
 // ==================== 根布局组件 ====================
 
 import type { ReactNode } from 'react'
+import type { Metadata, Viewport } from 'next'
 import './globals.scss'
 
 interface RootLayoutProps {
   children: ReactNode
 }
 
-export const metadata = {
-  viewport: 'width=device-width, initial-scale=1',
-  charset: 'utf-8',
+export const metadata: Metadata = {
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {

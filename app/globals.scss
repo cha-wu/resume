@@ -1,7 +1,6 @@
-// ==================== 全局样式 ====================
-
 @import '../styles/variables.scss';
 @import '../styles/reset.scss';
+@import '../styles/iconfont.scss';
 
 // 基础样式
 *,
@@ -22,32 +21,39 @@ html {
   -webkit-font-smoothing: antialiased;
 }
 
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: none;
+}
+
+h1 {
+  font-family: 'Lucida Grande', 'Hiragino Sans GB', 'Hiragino Sans GB W3';
+}
+
 body {
   background: $bg-color;
   color: $main-font-color;
   line-height: 1.6;
   min-height: 100vh;
-
-  @media print {
-    background: white;
-  }
 }
 
-// 链接样式
 a {
+  font-family: 'Museo Sans', $font-family;
   color: inherit;
   text-decoration: none;
-  transition: color $transition-normal;
 }
 
-// 图片样式
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-// 打印相关类
 .print-hide {
   @media print {
     display: none !important;
@@ -62,40 +68,56 @@ img {
   }
 }
 
-// 内容容器
 #content {
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 20px;
-  min-height: 100vh;
   position: relative;
+  display: block;
+  width: 1024px;
+  margin: 55px auto;
+  box-shadow: 0 0 15px silver;
+  border-radius: 5px;
+  transition: all 0.2s ease-out;
+}
 
-  @media print {
-    padding: 0;
+#body-blocked {
+  padding: 3em 1em 0;
+  text-align: center;
+  color: #999999;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  line-height: 2em;
+}
+
+#body-container {
+  position: relative;
+}
+
+*::selection {
+  background: rgba(52, 152, 219, 0.4);
+}
+
+@media print {
+  #content {
+    border-radius: 0;
     margin: 0;
-    max-width: 100%;
+    height: 1447px;
+    overflow: hidden;
+    min-height: 1430px;
+    background: white;
   }
 }
 
-// 屏蔽消息样式
-#body-blocked {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  text-align: center;
-  padding: 20px;
+@media screen and (max-width: 1024px) {
+  body {
+    background: white;
+  }
 
-  p {
-    font-size: 18px;
-    color: #666;
-    margin: 10px 0;
-
-    &:first-child {
-      font-size: 24px;
-      font-weight: 600;
-      color: $main-color;
-    }
+  #content {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    min-width: 320px;
+    min-height: 0;
+    box-shadow: none;
   }
 }

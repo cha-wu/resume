@@ -14,10 +14,10 @@ interface HeaderProps {
 const ContactLink = ({ contact }: { contact: Contact }) => {
   const getLinkHref = (contact: Contact) => {
     if (contact.type === ContactType.MAIL) return `mailto:${contact.address}`
-    if (contact.type === ContactType.BLOG) return `https://${contact.address}`
+    if (contact.type === ContactType.BLOG) return `http://${contact.address}`
     if (contact.type === ContactType.GITHUB) return `https://github.com/${contact.address}`
     if (contact.type === ContactType.TELL) return `tel:${contact.address}`
-    return contact.address
+    return '##'
   }
 
   const isExternal = contact.type === ContactType.BLOG || contact.type === ContactType.GITHUB
@@ -42,10 +42,34 @@ const ContactLink = ({ contact }: { contact: Contact }) => {
  */
 export const Header = ({ config }: HeaderProps) => {
   const { name, github, job, profiles, contacts, weChatQrCode, showWeChatQrCodeInHTML } = config
+  const normalizedContacts = contacts.map((contact) => {
+    if (contact.showAddr) {
+      return contact
+    }
+
+    if (contact.type === ContactType.TELL) {
+      return {
+        ...contact,
+        showAddr: `${contact.address.slice(0, 3)} ${contact.address.slice(3, -4)}<span class="print-hide">****</span><span class="print-show">${contact.address.slice(-4)}</span>`,
+      }
+    }
+
+    if (contact.type === ContactType.MAIL) {
+      const [namePart = '', domainPart = ''] = contact.address.split('@')
+      return {
+        ...contact,
+        showAddr: `${namePart}<span class="print-hide">#</span><span class="print-show">@</span>${domainPart}`,
+      }
+    }
+
+    return {
+      ...contact,
+      showAddr: contact.address,
+    }
+  })
 
   return (
     <header className={styles.header}>
-      {/* 微信二维码 */}
       {weChatQrCode && (
         <div
           className={`${styles.qrcode} ${!showWeChatQrCodeInHTML ? styles['print-show'] : ''}`}
@@ -59,11 +83,9 @@ export const Header = ({ config }: HeaderProps) => {
         </div>
       )}
 
-      {/* 顶部信息 */}
       <div className={styles['tit-top']}>
         <h1 className={styles.name}>{name}</h1>
 
-        {/* GitHub 链接 */}
         {github && (
           <a
             className={styles.nick}
@@ -82,7 +104,6 @@ export const Header = ({ config }: HeaderProps) => {
         <h2 className={styles.job}>{job}</h2>
       </div>
 
-      {/* 底部信息 */}
       <div className={styles['tit-bottom']}>
         <div className={styles['tb-left']}>
           {profiles.map((profile, index) => (
@@ -93,13 +114,12 @@ export const Header = ({ config }: HeaderProps) => {
         </div>
 
         <div className={styles['tb-right']}>
-          {contacts.map((contact, index) => (
+          {normalizedContacts.map((contact, index) => (
             <ContactLink key={index} contact={contact} />
           ))}
         </div>
       </div>
 
-      {/* 移动端 GitHub 图标 */}
       {github && (
         <a
           className={`iconfont ${styles['tbr-item-mobile']} icon-github`}
@@ -109,8 +129,7 @@ export const Header = ({ config }: HeaderProps) => {
         />
       )}
 
-      {/* 移动端联系方式图标 */}
-      {contacts.map((contact, index) => (
+      {normalizedContacts.map((contact, index) => (
         <a
           key={index}
           className={`iconfont ${styles['tbr-item-mobile']} icon-${contact.type || 'link'}`}
@@ -119,7 +138,21 @@ export const Header = ({ config }: HeaderProps) => {
               ? `mailto:${contact.address}`
               : contact.type === ContactType.TELL
               ? `tel:${contact.address}`
+              : contact.type === ContactType.BLOG
+              ? `http://${contact.address}`
+              : contact.type === ContactType.GITHUB
+              ? `https://github.com/${contact.address}`
               : contact.address
+          }
+          target={
+            contact.type === ContactType.BLOG || contact.type === ContactType.GITHUB
+              ? '_blank'
+              : undefined
+          }
+          rel={
+            contact.type === ContactType.BLOG || contact.type === ContactType.GITHUB
+              ? 'noopener noreferrer'
+              : undefined
           }
         />
       ))}
