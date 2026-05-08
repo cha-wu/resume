@@ -22,6 +22,8 @@ export interface Contact {
   type?: ContactType
   /** 显示地址（可包含HTML） */
   showAddr?: string
+  /** 禁用链接，仅展示不跳转 */
+  noLink?: boolean
 }
 
 /**

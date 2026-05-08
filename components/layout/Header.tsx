@@ -21,7 +21,17 @@ const ContactLink = ({ contact }: { contact: Contact }) => {
   }
 
   const isExternal = contact.type === ContactType.BLOG || contact.type === ContactType.GITHUB
-
+  // 如果设置了 noLink，只展示文本不渲染链接         
+  if (contact.noLink) {
+    return (
+      <div className={styles['tbr-item']}>
+        <span
+          dangerouslySetInnerHTML={{ __html: contact.showAddr || contact.address }}
+        />
+        <span className={`iconfont icon-${contact.type || 'link'}`} />
+      </div>
+    )
+  }
   return (
     <a
       className={styles['tbr-item']}

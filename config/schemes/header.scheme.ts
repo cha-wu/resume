@@ -4,10 +4,10 @@ import { HeaderConfig, ContactType } from '../types'
 
 export const headerConfig: HeaderConfig = {
   // 姓名
-  name: '昴君',
+  name: '茶无',
 
   // GitHub地址
-  github: 'yourusername',
+  github: 'cha-wu',
 
   // 意向的工作
   job: '全栈开发工程师',
@@ -21,13 +21,13 @@ export const headerConfig: HeaderConfig = {
 
   // 信息栏
   contacts: [
-    { address: 'yourname@example.com', type: ContactType.MAIL },
-    { address: 'yourblog.com', type: ContactType.BLOG },
-    { address: '13800138000', type: ContactType.TELL },
+    { address: '3262895854@qq.com', type: ContactType.MAIL },
+    { address: 'blog.smob.cc', type: ContactType.BLOG },
+    { address: '13800138000', type: ContactType.TELL, noLink: true },
   ],
 
   // 是否显示微信二维码
-  weChatQrCode: false,
+  weChatQrCode: true,
 
   // 是否在HTML文档页面显示二维码
   showWeChatQrCodeInHTML: true,
