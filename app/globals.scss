@@ -1,0 +1,101 @@
+// ==================== 全局样式 ====================
+
+@import '../styles/variables.scss';
+@import '../styles/reset.scss';
+
+// 基础样式
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: $font-family;
+  font-size: 16px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: $bg-color;
+  color: $main-font-color;
+  line-height: 1.6;
+  min-height: 100vh;
+
+  @media print {
+    background: white;
+  }
+}
+
+// 链接样式
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color $transition-normal;
+}
+
+// 图片样式
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// 打印相关类
+.print-hide {
+  @media print {
+    display: none !important;
+  }
+}
+
+.print-show {
+  display: none;
+
+  @media print {
+    display: inline !important;
+  }
+}
+
+// 内容容器
+#content {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  position: relative;
+
+  @media print {
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+  }
+}
+
+// 屏蔽消息样式
+#body-blocked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
+
+  p {
+    font-size: 18px;
+    color: #666;
+    margin: 10px 0;
+
+    &:first-child {
+      font-size: 24px;
+      font-weight: 600;
+      color: $main-color;
+    }
+  }
+}

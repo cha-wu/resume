@@ -1,0 +1,88 @@
+// ==================== PrintButton 样式 ====================
+
+@import '../../styles/variables.scss';
+
+.print {
+  position: fixed;
+  z-index: 100;
+  left: 50%;
+  bottom: 5px;
+  margin-left: 520px;
+  background: $main-color;
+  padding: 3px 7px;
+  color: white;
+  font-size: 15px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  user-select: none;
+  transition: opacity 0.2s;
+
+  &:hover {
+    .tips {
+      opacity: 1;
+    }
+  }
+
+  &.disabled {
+    background: gray;
+    cursor: not-allowed;
+
+    .tips {
+      color: gray;
+    }
+  }
+
+  .tips {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    padding-bottom: 28px;
+    font-size: 12px;
+    color: $main-color;
+    opacity: 0;
+    width: auto;
+    text-align: center;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    margin-bottom: 5px;
+    white-space: nowrap;
+
+    &.disabled {
+      color: gray;
+    }
+  }
+
+  span:last-child {
+    margin-left: 4px;
+  }
+}
+
+// 响应式设计
+@media screen and (max-width: 1250px) {
+  .print {
+    left: auto;
+    right: 5px;
+    margin-left: 0;
+
+    .tips {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .print {
+    display: none;
+  }
+}
+
+// 打印样式
+@media print {
+  .print {
+    display: none;
+  }
+}

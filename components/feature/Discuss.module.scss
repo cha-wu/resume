@@ -1,0 +1,20 @@
+@import '../../styles/variables.scss';
+
+.gitalk-container {
+  max-width: 1024px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-size: 14px;
+}
+
+@media print {
+  .gitalk-container {
+    display: none;
+  }
+}

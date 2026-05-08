@@ -1,0 +1,20 @@
+@import '../../styles/variables.scss';
+
+.about {
+  display: block;
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  color: #ccc;
+  text-decoration: none;
+
+  &:hover {
+    color: $main-color;
+  }
+}
+
+@media print {
+  .about {
+    display: none;
+  }
+}

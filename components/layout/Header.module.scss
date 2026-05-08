@@ -1,0 +1,166 @@
+// ==================== Header 组件样式 ====================
+
+@import '../../styles/variables.scss';
+
+.header {
+  position: relative;
+  padding: 30px 32px;
+  background: rgba(52, 152, 219, 0.05);
+  border-radius: 5px;
+
+  .qrcode {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    &.print-show {
+      display: none;
+    }
+  }
+
+  .tit-top {
+    border-bottom: 2px solid rgba(52, 152, 219, 0.2);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+
+    .name {
+      font-size: 36px;
+      font-weight: 700;
+      color: $main-header-color;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .nick {
+      display: inline-block;
+      margin-left: 15px;
+      text-decoration: none;
+
+      small {
+        font-size: 14px;
+        color: #666;
+
+        a {
+          text-decoration: none;
+          color: inherit;
+
+          &:hover {
+            color: $main-color;
+          }
+        }
+      }
+    }
+
+    .job {
+      font-size: 20px;
+      font-weight: 500;
+      color: $main-font-color;
+      margin: 10px 0 0 0;
+    }
+  }
+
+  .tit-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .tb-left {
+      flex: 1;
+
+      .tbl-item {
+        font-size: $article-size;
+        color: $main-font-color;
+        margin: 5px 0;
+        font-weight: 500;
+      }
+    }
+
+    .tb-right {
+      display: flex;
+      gap: 15px;
+
+      .tbr-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: $main-font-color;
+        font-size: $article-size;
+        transition: color 0.2s;
+
+        &:hover {
+          color: $main-color;
+        }
+
+        .iconfont {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  // 移动端图标
+  .tbr-item-mobile {
+    display: none;
+  }
+}
+
+// 响应式设计
+@media screen and (max-width: 1024px) {
+  .header {
+    padding: 20px;
+
+    .qrcode {
+      display: none;
+    }
+
+    .tit-bottom {
+      flex-direction: column;
+      gap: 15px;
+
+      .tb-right {
+        display: none;
+      }
+    }
+
+    .tbr-item-mobile {
+      display: inline-block;
+      font-size: 24px;
+      color: $main-color;
+      margin-right: 15px;
+      text-decoration: none;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+// 打印样式
+@media print {
+  .header {
+    background: white;
+    border-bottom: 1px solid #eee;
+
+    .qrcode.print-show {
+      display: block;
+    }
+  }
+
+  .print-hide {
+    display: none !important;
+  }
+
+  .print-show {
+    display: inline !important;
+  }
+}
