@@ -19,7 +19,6 @@ export const GithubCorner = ({ href }: GithubCornerProps) => {
       rel="noopener noreferrer"
     >
       <span>fork me on Github</span>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/github.svg" alt="GitHub" width={50} height={50} />
     </a>
   )

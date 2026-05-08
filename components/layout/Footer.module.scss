@@ -12,6 +12,7 @@
   box-sizing: border-box;
   padding: 0 10px;
   color: #c0c0c0;
+  font-family: 'Museo Sans', $font-family;
 
   a {
     font-family: 'Museo Sans', $font-family;
@@ -19,6 +20,13 @@
 
   .pi-right {
     float: right;
+  }
+
+  .pi-left,
+  .pi-right {
+    :global(p) {
+      display: inline;
+    }
   }
 }
 

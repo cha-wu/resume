@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { OptionConfig } from '@/config/types'
 import styles from './PrintButton.module.scss'
 
@@ -15,81 +15,97 @@ interface PrintButtonProps {
 export const PrintButton = ({ config }: PrintButtonProps) => {
   const { printName, docName } = config
   const [isPrintInOnePage, setIsPrintInOnePage] = useState(true)
+  const originalTitleRef = useRef(docName)
 
-  // 检测内容高度是否超过单页可打印高度
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        const contentElement = document.querySelector('#content')
-        if (contentElement) {
-          const height = parseInt(
-            window.getComputedStyle(contentElement).height,
-            10
-          )
-          setIsPrintInOnePage(height <= 1430)
-        }
-      } catch (err) {
-        console.error('高度检测失败:', err)
-        setIsPrintInOnePage(true)
+  const checkPrintHeight = useCallback(() => {
+    try {
+      const contentElement = document.querySelector('#content')
+      if (contentElement) {
+        const height = parseInt(
+          window.getComputedStyle(contentElement).height,
+          10
+        )
+        setIsPrintInOnePage(height <= 1430)
       }
-    }, 500)
-
-    return () => clearTimeout(timer)
+    } catch (err) {
+      console.error('高度检测失败:', err)
+      setIsPrintInOnePage(true)
+    }
   }, [])
 
-  // 打印前处理
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      checkPrintHeight()
+    }, 500)
+
+    const handleResize = () => {
+      checkPrintHeight()
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        checkPrintHeight()
+      })
+    }
+
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [checkPrintHeight])
+
+  useEffect(() => {
+    originalTitleRef.current = docName
+  }, [docName])
+
   const handleBeforePrint = useCallback(() => {
+    originalTitleRef.current = document.title
     const printFileName = printName || docName.replace(/\s*\|\s*/g, '-')
     document.title = printFileName
   }, [printName, docName])
 
-  // 打印后处理
   const handleAfterPrint = useCallback(() => {
-    document.title = docName
+    document.title = originalTitleRef.current || docName
   }, [docName])
 
-  // 监听打印事件
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('beforeprint', handleBeforePrint)
-      window.addEventListener('afterprint', handleAfterPrint)
+    window.addEventListener('beforeprint', handleBeforePrint)
+    window.addEventListener('afterprint', handleAfterPrint)
 
-      return () => {
-        window.removeEventListener('beforeprint', handleBeforePrint)
-        window.removeEventListener('afterprint', handleAfterPrint)
-      }
+    return () => {
+      window.removeEventListener('beforeprint', handleBeforePrint)
+      window.removeEventListener('afterprint', handleAfterPrint)
     }
   }, [handleBeforePrint, handleAfterPrint])
 
-  // 打印处理
   const handlePrint = useCallback(() => {
     if (!isPrintInOnePage) {
       return
     }
     handleBeforePrint()
+    window.focus()
     window.print()
-  }, [isPrintInOnePage, handleBeforePrint])
+    window.setTimeout(() => {
+      handleAfterPrint()
+    }, 300)
+  }, [isPrintInOnePage, handleBeforePrint, handleAfterPrint])
 
   return (
-    <a
+    <button
+      type="button"
       id="print"
       className={`${styles.print} ${!isPrintInOnePage ? styles.disabled : ''}`}
       onClick={handlePrint}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          handlePrint()
-        }
-      }}
+      disabled={!isPrintInOnePage}
     >
       {isPrintInOnePage ? (
         <>
           <div id="tips" className={styles.tips}>
-            <span>请使用 Chrome</span>
+            <span>点击导出 PDF</span>
             <br />
-            <span>并设置为无边距</span>
+            <span>建议使用 Chrome 并设置无边距</span>
           </div>
           <span className="iconfont icon-pdf" />
           <span>转为PDF</span>
@@ -105,6 +121,6 @@ export const PrintButton = ({ config }: PrintButtonProps) => {
           <span>转为PDF</span>
         </>
       )}
-    </a>
+    </button>
   )
 }

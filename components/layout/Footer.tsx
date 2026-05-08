@@ -17,14 +17,16 @@ export const Footer = ({ config }: FooterProps) => {
   const { left, right, setDefaultRightUrl } = config
   const [currentUrl, setCurrentUrl] = useState('')
 
-  // 自动生成当前页面 URL
   useEffect(() => {
     if (setDefaultRightUrl && !right) {
       if (typeof window !== 'undefined') {
         const url = window.location.href
         const hostname = window.location.hostname
         const pathname = window.location.pathname
-        const displayUrl = hostname + (pathname === '/' ? '' : pathname)
+        const port = window.location.port
+        const displayPort =
+          port === '80' || port === '443' || port === '' ? '' : `:${port}`
+        const displayUrl = hostname + displayPort + (pathname === '/' ? '' : pathname)
         setCurrentUrl(`[网页版简历：${displayUrl}](${url})`)
       }
     }

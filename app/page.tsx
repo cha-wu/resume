@@ -9,6 +9,7 @@ import { Section } from '@/components/content/Section'
 import { PrintButton } from '@/components/feature/PrintButton'
 import { GithubCorner } from '@/components/layout/GithubCorner'
 import { About } from '@/components/feature/About'
+import { Discuss } from '@/components/feature/Discuss'
 
 // 生成页面元数据
 export async function generateMetadata(): Promise<Metadata> {
@@ -55,23 +56,22 @@ export default function HomePage() {
 
   return (
     <>
-      {/* 顶部角标 */}
       <Title config={title} />
 
-      {/* GitHub 角标 */}
       {option.githubLogoLocation && (
         <GithubCorner href={option.githubLogoLocation} />
       )}
 
-      {/* 主内容区域 */}
-      <div id="content">
-        <Header config={header} />
-        <Section sections={sections} />
-        <Footer config={footer} />
-        <PrintButton config={option} />
+      <div id="body-container">
+        <div id="content">
+          <Header config={header} />
+          <Section sections={sections} />
+          <PrintButton config={option} />
+          <Footer config={footer} />
+        </div>
       </div>
 
-      {/* 作者信息 */}
+      {gitalk && <Discuss config={gitalk} />}
       {option.showAboutInfo && <About />}
     </>
   )

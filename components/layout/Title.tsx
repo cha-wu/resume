@@ -29,11 +29,11 @@ export const Title = ({ config }: TitleProps) => {
 
   return (
     <div className={styles.title}>
-      <span>
+      <span className={styles['pi-left']}>
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{left}</ReactMarkdown>
       </span>
       {displayRight && (
-        <span>
+        <span className={styles['pi-right']}>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayRight}</ReactMarkdown>
         </span>
       )}
