@@ -12,7 +12,7 @@ interface SectionProps {
 /**
  * 内容段落组件
  */
-const SectionParagraph = ({ paragraph }: { paragraph: SectionItem['content'][0] }) => {
+const SectionParagraph = ({ paragraph, showTime = true }: { paragraph: SectionItem['content'][0]; showTime?: boolean }) => {
   const { left, right, bold, showDot } = paragraph
 
   const classNames = [
@@ -25,20 +25,20 @@ const SectionParagraph = ({ paragraph }: { paragraph: SectionItem['content'][0] 
 
   return (
     <div className={classNames}>
-      {/* 右侧内容（时间/链接） */}
-      {right && (
-        <span className={styles['sip-right']}>
+      {/* 时间标记 - 放在右侧（可选显示） */}
+      {showTime && left && (
+        <span className={styles['sip-time']}>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {right}
+            {left}
           </ReactMarkdown>
         </span>
       )}
 
-      {/* 左侧内容（正文） */}
-      {left && (
-        <span className={styles['sip-left']}>
+      {/* 内容详情 */}
+      {right && (
+        <span className={styles['sip-content']}>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {left}
+            {right}
           </ReactMarkdown>
         </span>
       )}
@@ -52,18 +52,31 @@ const SectionParagraph = ({ paragraph }: { paragraph: SectionItem['content'][0] 
 export const Section = ({ sections }: SectionProps) => {
   return (
     <section id="main-in" className={styles['main-in']}>
-      {sections.map((section, sectionIndex) => (
-        <div key={sectionIndex} className={styles['s-item']}>
-          <h3>{section.title}</h3>
+      {sections.map((section, sectionIndex) => {
+        // 获取第一个段落的时间作为标题右侧时间
+        const firstParagraphTime = section.content[0]?.left
 
-          {section.content.map((paragraph, paragraphIndex) => (
-            <SectionParagraph
-              key={paragraphIndex}
-              paragraph={paragraph}
-            />
-          ))}
-        </div>
-      ))}
+        return (
+          <div key={sectionIndex} className={styles['s-item']}>
+            <h3>
+              <span className={styles['section-title-text']}>{section.title}</span>
+              {firstParagraphTime && (
+                <span className={styles['section-title-time']}>
+                  {firstParagraphTime}
+                </span>
+              )}
+            </h3>
+
+            {section.content.map((paragraph, paragraphIndex) => (
+              <SectionParagraph
+                key={paragraphIndex}
+                paragraph={paragraph}
+                showTime={paragraphIndex !== 0} // 第一个段落不显示时间（已显示在标题旁）
+              />
+            ))}
+          </div>
+        )
+      })}
     </section>
   )
 }

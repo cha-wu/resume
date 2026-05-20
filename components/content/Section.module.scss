@@ -11,8 +11,6 @@
   min-height: 1135px;
   box-sizing: border-box;
   border-right: 1px solid rgba(52, 152, 219, 0.15);
-  column-count: 2;
-  column-gap: 30px;
   width: 100%;
   padding: 30px 32px 0;
 
@@ -24,7 +22,7 @@
     break-inside: avoid;
 
     h3 {
-      font-size: 24px;
+      font-size: 18px;
       width: 100%;
       background: rgba(52, 152, 219, 0.08);
       color: #222;
@@ -34,20 +32,34 @@
       border-left: 5px solid $main-color;
       margin-bottom: 5px;
       margin-top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .section-title-text {
+        flex: 1;
+      }
+
+      .section-title-time {
+        color: #999;
+        font-size: 12px;
+        font-weight: 400;
+        margin-right: 10px;
+      }
     }
 
     .si-p {
       font-size: $article-size;
       color: #4a4a4a;
-      line-height: 1.56em;
+      line-height: 1.5em;
       position: relative;
-      padding-top: 0.4em;
+      padding-top: 0.3em;
 
       &.need-bold {
         font-weight: 700;
-        font-size: 16.6px;
-        line-height: 1.7em;
-        padding-top: 0.3em;
+        font-size: 14px;
+        line-height: 1.6em;
+        padding-top: 0.2em;
       }
 
       &.have-dot {
@@ -67,17 +79,21 @@
         list-style: disc;
       }
 
-      .sip-left {
-        font-family: 'Museo Sans', $font-family;
+      // 时间标记 - 右侧
+      .sip-time {
+        float: right;
+        margin-left: 15px;
+        color: #999;
+        font-size: 12px;
 
         p {
           display: inline;
         }
       }
 
-      .sip-right {
-        float: right;
-        margin-left: 10px;
+      // 内容详情
+      .sip-content {
+        display: block;
 
         p {
           display: inline;
@@ -91,8 +107,8 @@
 
       // 链接样式
       a {
-        font-size: $article-size;
-        padding: 0 6px 1px;
+        font-size: 12px;
+        padding: 0 4px 1px;
         margin-top: 1px;
         background-color: #f6f6f6;
         border-radius: 3px;
@@ -114,12 +130,12 @@
       }
 
       em {
-        font-size: $article-size;
+        font-size: 12px;
         font-style: normal;
       }
 
       h4 {
-        font-size: ($article-size + 1px);
+        font-size: 13px;
         font-weight: 700;
         color: $main-header-color;
         margin: 0.3em 0;
@@ -141,9 +157,8 @@
     min-height: 0;
     column-count: 1;
 
-    .sip-right {
+    .sip-time {
       float: none !important;
-      margin-right: 5px;
       margin-bottom: 5px;
       display: block;
     }

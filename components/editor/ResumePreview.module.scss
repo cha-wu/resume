@@ -1,0 +1,45 @@
+// ==================== 简历预览样式 ====================
+
+.resumePreview {
+  display: flex;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.resumeContainer {
+  width: 1024px;
+  min-height: 1100px;
+  background: white;
+  padding: 55px 80px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+// 打印样式
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  .resumePreview {
+    display: block;
+  }
+
+  .resumeContainer {
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+    padding: 40px;
+    min-height: auto;
+  }
+
+  // 隐藏预览模式下的打印按钮等元素
+  .print-hide {
+    display: none !important;
+  }
+
+  .print-show {
+    display: inline !important;
+  }
+}

@@ -107,7 +107,6 @@ export const PrintButton = ({ config }: PrintButtonProps) => {
             <br />
             <span>建议使用 Chrome 并设置无边距</span>
           </div>
-          <span className="iconfont icon-pdf" />
           <span>转为PDF</span>
         </>
       ) : (
@@ -117,7 +116,6 @@ export const PrintButton = ({ config }: PrintButtonProps) => {
             <br />
             <span>请删除部分内容</span>
           </div>
-          <span className="iconfont icon-pdf" />
           <span>转为PDF</span>
         </>
       )}

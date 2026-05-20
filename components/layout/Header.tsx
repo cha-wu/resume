@@ -21,14 +21,13 @@ const ContactLink = ({ contact }: { contact: Contact }) => {
   }
 
   const isExternal = contact.type === ContactType.BLOG || contact.type === ContactType.GITHUB
-  // 如果设置了 noLink，只展示文本不渲染链接         
+  // 如果设置了 noLink，只展示文本不渲染链接
   if (contact.noLink) {
     return (
       <div className={styles['tbr-item']}>
         <span
           dangerouslySetInnerHTML={{ __html: contact.showAddr || contact.address }}
         />
-        <span className={`iconfont icon-${contact.type || 'link'}`} />
       </div>
     )
   }
@@ -42,7 +41,6 @@ const ContactLink = ({ contact }: { contact: Contact }) => {
       <span
         dangerouslySetInnerHTML={{ __html: contact.showAddr || contact.address }}
       />
-      <span className={`iconfont icon-${contact.type || 'link'}`} />
     </a>
   )
 }
@@ -85,7 +83,7 @@ export const Header = ({ config }: HeaderProps) => {
           className={`${styles.qrcode} ${!showWeChatQrCodeInHTML ? styles['print-show'] : ''}`}
         >
           <Image
-            src="/wechat.png"
+            src="/头像.jpg"
             alt="微信二维码"
             width={100}
             height={100}
@@ -103,11 +101,7 @@ export const Header = ({ config }: HeaderProps) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <small>
-              <span className="iconfont icon-github">
-                <span>{github}</span>
-              </span>
-            </small>
+            <small>{github}</small>
           </a>
         )}
 
@@ -115,44 +109,49 @@ export const Header = ({ config }: HeaderProps) => {
       </div>
 
       <div className={styles['tit-bottom']}>
-        <div className={styles['tb-left']}>
+        {/* 联系方式 - 占一排 */}
+        <div className={styles['tb-top']}>
+          {normalizedContacts.map((contact, index) => (
+            <ContactLink key={index} contact={contact} />
+          ))}
+        </div>
+
+        {/* 个人简介 - 放下面 */}
+        <div className={styles['tb-bottom']}>
           {profiles.map((profile, index) => (
             <h3 key={index} className={styles['tbl-item']}>
               {profile}
             </h3>
           ))}
         </div>
-
-        <div className={styles['tb-right']}>
-          {normalizedContacts.map((contact, index) => (
-            <ContactLink key={index} contact={contact} />
-          ))}
-        </div>
       </div>
 
       {github && (
         <a
-          className={`iconfont ${styles['tbr-item-mobile']} icon-github`}
+          className={styles['tbr-item-mobile']}
           href={`https://github.com/${github}`}
           target="_blank"
           rel="noopener noreferrer"
-        />
+          aria-label="GitHub"
+        >
+          GitHub
+        </a>
       )}
 
       {normalizedContacts.map((contact, index) => (
         <a
           key={index}
-          className={`iconfont ${styles['tbr-item-mobile']} icon-${contact.type || 'link'}`}
+          className={styles['tbr-item-mobile']}
           href={
             contact.type === ContactType.MAIL
               ? `mailto:${contact.address}`
               : contact.type === ContactType.TELL
-              ? `tel:${contact.address}`
-              : contact.type === ContactType.BLOG
-              ? `http://${contact.address}`
-              : contact.type === ContactType.GITHUB
-              ? `https://github.com/${contact.address}`
-              : contact.address
+                ? `tel:${contact.address}`
+                : contact.type === ContactType.BLOG
+                  ? `http://${contact.address}`
+                  : contact.type === ContactType.GITHUB
+                    ? `https://github.com/${contact.address}`
+                    : contact.address
           }
           target={
             contact.type === ContactType.BLOG || contact.type === ContactType.GITHUB
@@ -164,7 +163,10 @@ export const Header = ({ config }: HeaderProps) => {
               ? 'noopener noreferrer'
               : undefined
           }
-        />
+          aria-label={contact.type}
+        >
+          {contact.type}
+        </a>
       ))}
     </header>
   )

@@ -58,6 +58,10 @@ export default function HomePage() {
     <>
       <Title config={title} />
 
+      <a href="/editor" className="editor-entry" title="打开编辑器">
+        <span className="editor-icon">编辑</span>
+      </a>
+
       {option.githubLogoLocation && (
         <GithubCorner href={option.githubLogoLocation} />
       )}

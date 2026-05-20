@@ -1,6 +1,5 @@
 @import '../styles/variables.scss';
 @import '../styles/reset.scss';
-@import '../styles/iconfont.scss';
 
 // 基础样式
 *,
@@ -68,6 +67,57 @@ a {
   }
 }
 
+// ==================== 编辑器页面打印样式 ====================
+
+@media print {
+  // 编辑器页面特殊处理
+  body {
+    background: white !important;
+  }
+
+  // 隐藏所有编辑器相关元素
+  .print-editor-mode {
+    .toolbar,
+    .tabs,
+    .editorPane,
+    .formContent,
+    .actions,
+    .paneHeader,
+    .sectionHeader {
+      display: none !important;
+    }
+
+    .editorContainer {
+      height: auto !important;
+      background: white !important;
+    }
+
+    .mainContent {
+      display: block !important;
+    }
+
+    .previewPane {
+      display: block !important;
+    }
+
+    .previewWrapper {
+      padding: 0 !important;
+    }
+
+    .resumePreview {
+      display: block !important;
+    }
+
+    .resumeContainer {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 40px !important;
+      box-shadow: none !important;
+      min-height: auto !important;
+    }
+  }
+}
+
 #content {
   position: relative;
   display: block;
@@ -119,5 +169,107 @@ a {
     min-width: 320px;
     min-height: 0;
     box-shadow: none;
+  }
+}
+
+// 编辑器入口按钮
+.editor-entry {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: #007acc;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 122, 204, 0.4);
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  text-decoration: none;
+
+  &:hover {
+    background: #0098ff;
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 122, 204, 0.5);
+  }
+
+  .editor-icon {
+    font-size: 28px;
+  }
+
+  @media print {
+    display: none !important;
+  }
+}
+
+// ==================== 编辑器页面打印样式 ====================
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  // 隐藏编辑器页面的所有工具栏、编辑区
+  .toolbar,
+  .tabs,
+  .editorPane,
+  .paneHeader,
+  .formContent,
+  .sectionHeader,
+  .actions,
+  .errorBar {
+    display: none !important;
+  }
+
+  .editorContainer {
+    height: auto !important;
+    background: white !important;
+    display: block !important;
+  }
+
+  .mainContent {
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .previewPane {
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .previewWrapper {
+    padding: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  .resumePreview {
+    display: block !important;
+  }
+
+  .resumeContainer {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 40px !important;
+    box-shadow: none !important;
+    min-height: auto !important;
+  }
+
+  // 确保简历内容正确显示
+  .print-hide {
+    display: none !important;
+  }
+
+  .print-show {
+    display: inline !important;
   }
 }
